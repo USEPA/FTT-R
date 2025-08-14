@@ -1,2 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^more$
+^what_to_ignore\.R$
+^Dockerfile$
+^.*\.zip$
+^LICENSE\.md$

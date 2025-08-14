@@ -1,0 +1,8 @@
+"ScenarioName","StartingPopulation","FinalPopulation","StartingBiomass","FinalBiomass","StartingMeanSize","FinalMeanSize","MinDailyGrowthPotential","MaxDailyGrowthPotential","AnnualLambda","AnnualMinGrowthPotential","AnnualMaxGrowthPotential"
+"Y1.Baseline",100,100.895,124.788,260.175,39.8,61,0.95,6.974,1.458,0.082,1.902
+"Y1.TCEM_diaz_survival",100,2.979,124.788,7.658,39.8,60.934,0.45,6.974,0.038,0.002,0.049
+"Y1.GUTS_diaz_survival",100,54.102,124.788,139.502,39.8,60.998,0.605,6.974,0.767,0.043,1.001
+"Y1.diaz_growth",100,89.181,124.788,224.167,39.8,60.433,0.95,6.974,1.015,0.057,1.324
+"Y1.GUTS+Growth",100,47.825,124.788,120.205,39.8,60.432,0.605,6.974,0.533,0.03,0.695
+"Y1.Overwinter",100,63.495,124.788,154.264,39.8,59.482,0.878,6.974,0.889,0.013,1.171
+"Y1.Density Dependence",100,63.995,124.788,147.712,39.8,58.488,0.95,6.894,1.168,0.042,1.58

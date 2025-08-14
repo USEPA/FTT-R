@@ -60,6 +60,44 @@ FormatExportResults(
 }
 \arguments{
 \item{modelOutputList}{A list object with the output from \code{\link{SimulateModel}}.  This can be a single \code{SimulateModel} output or a list of \code{SimulateModel} output lists.}
+
+\item{A}{for [KernelImage] matrix for plotting [matrix]}
+
+\item{x}{for [KernelImage] specify x length. Default = NULL [vector]}
+
+\item{y}{for [KernelImage] specify y length. Default = NULL [vector]}
+
+\item{col}{for [KernelImage] colorRampPalette for plot. Default color palette is provided [colorRampPalette]}
+
+\item{just.legend}{for [KernelImage] just plot legend? Default = FALSE [boolean]}
+
+\item{bw}{for [KernelImage] black and white color? Default = FALSE [boolean]}
+
+\item{my.x.axis}{for [KernelImage] provide own x axis labels. Default = NA}
+
+\item{matLabels}{for [KernelImage] provide own matrix(?) labels. Default = NULL}
+
+\item{do.contour}{for [KernelImage] include contour lines? Default = TRUE [boolean]}
+
+\item{do.legend}{for [KernelImage] include legend? Default = TRUE [boolean]}
+
+\item{...}{for [KernelImage] specify additional arguments to image() function}
+
+\item{scenarioToExport}{for [FormatExportScenario] the scenario name within the parameters (parsList) to export [string]}
+
+\item{parsList}{for [FormatExportScenario] parameters list object to be used to search for parameters associated with scenarioToExport [list]}
+
+\item{descList}{for [FormatExportScenario] descriptions list object to be used to search for description associated wth scenarioToExprt [list]}
+
+\item{runID}{for [FormatExportResults] completed simulation run name string to gather info from resultsList [string]}
+
+\item{scenarioID}{for [FormatExportResults] completed scenario name string within to gather information from results list along with runID [string]}
+
+\item{scenDescList}{for [FormatExportResults] completed list that is storing scenario descriptions. Default = scenarioDescriptions [list]}
+
+\item{resultsList}{for [FormatExportResults] completed list that is storing results from simulations. Default = modelRuns [list]}
+
+\item{runInfoList}{for [FormatExportResults] completed list that is storing simulation/model run information. Default = modelRunInfo [list]}
 }
 \value{
 Creates various model result summary objects or plots for Fish Toxicity Translator model scenario runs.
@@ -69,26 +107,26 @@ This group of functions are used for summarizing results from Fish Toxicity Tran
 }
 \section{Functions}{
 \itemize{
-\item \code{SummaryTable}: provides a data.frame() with summary results for each model output from the SimulateModel result stored in the 'modelOutputList'
+\item \code{SummaryTable()}: provides a data.frame() with summary results for each model output from the SimulateModel result stored in the 'modelOutputList'
 
-\item \code{SummaryMatrix}: Function creates a list of matrices for comparing each \code{\link{SummaryTable}} element to corresponding summary elements from each scenario included in 'modelOutputList'
+\item \code{SummaryMatrix()}: Function creates a list of matrices for comparing each \code{\link{SummaryTable}} element to corresponding summary elements from each scenario included in 'modelOutputList'
 
-\item \code{PlotSummaryMatrix}: Function creates a series of plot.matrix images to compare each \code{\link{SummaryTable}} element to corresponding summary elements from each scenario included in 'modelOutputList'
+\item \code{PlotSummaryMatrix()}: Function creates a series of plot.matrix images to compare each \code{\link{SummaryTable}} element to corresponding summary elements from each scenario included in 'modelOutputList'
 
-\item \code{PlotBiomass}: Function plots daily biomass results
+\item \code{PlotBiomass()}: Function plots daily biomass results
 
-\item \code{PlotPopulation}: Function plots daily population projection results
+\item \code{PlotPopulation()}: Function plots daily population projection results
 
-\item \code{PlotMeanSize}: Function plots the daily mean size of individuals in the population
+\item \code{PlotMeanSize()}: Function plots the daily mean size of individuals in the population
 
-\item \code{PlotGrowthPotential}: This function plots the daily minimum and maximum column sums to provide bounds on growth potential
+\item \code{PlotGrowthPotential()}: This function plots the daily minimum and maximum column sums to provide bounds on growth potential
 
-\item \code{KernelImage}: Function to plot discretized transition kernels
+\item \code{KernelImage()}: Function to plot discretized transition kernels
 
-\item \code{PlotTransitionKernel}: Function plots cumulative discretized transition Kernels
+\item \code{PlotTransitionKernel()}: Function plots cumulative discretized transition Kernels
 
-\item \code{FormatExportScenario}: Formats scenario parameters for exporting to excel documents
+\item \code{FormatExportScenario()}: Formats scenario parameters for exporting to excel documents
 
-\item \code{FormatExportResults}: Formats results parameters for exporting to excel documents
+\item \code{FormatExportResults()}: Formats results parameters for exporting to excel documents
+
 }}
-

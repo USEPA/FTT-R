@@ -32,6 +32,8 @@ SimulateModel(
 \item{num_size_classes}{The number of classes to discretize to [integer]}
 
 \item{solver_order}{Order for the gaussian quadrature rule used in numerical integration [integer]}
+
+\item{allOut}{T/F to indicate if additional outputs should be generated or not. Default = F [boolean]}
 }
 \value{
 A list is returned without outputs that include daily size vectors [1 x num_size_classes], population [float], and biomass [float]. A cumulative transition kernel is also output [matrix, num_size_classes x num_size_classes]. If 'allOut=T', daily transition kernels are output in addition to previous outputs [matrix, num_size_classes x num_size_classes].

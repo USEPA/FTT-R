@@ -1,10 +1,11 @@
 #~             ,''''''''''''''.
-#~~           /   USEPA FISH   \
-#~   >~',*>  <  TOX TRANSLATOR  )
-#~~           \ v1.0 "Doloris" /
+#~~           +     USEPA      +
+#~   >~',*> <   FISH TOXICITY   }
+#~~           +   TRANSLATOR   +
 #~             `..............'
 #~~
 #~  N. Pollesch - pollesch.nathan@epa.gov
+#
 
 #' Generate Spawning Probabilities
 #'

@@ -12,6 +12,7 @@ Growth(
   date,
   minGinc = 0.05,
   minV = 1e-05,
+  zInfMax = T,
   CDF = T,
   muSDOut = F
 )
@@ -26,6 +27,12 @@ Growth(
 \item{pars}{Data.frame containing the date-indexed parameters [data.frame]}
 
 \item{date}{Ordinal day to reference proper 'pars' date-indexed parameters [integer]}
+
+\item{minGinc}{Value for minimum mean growth increment. Default=0.05 used to avoid 'trapping' by growth increments smaller than discretization of size ranges [float]}
+
+\item{minV}{Value for minimum growth variance. Default=0.00001 used to ensure non-negative/non-zero growth variance [float]}
+
+\item{zInfMax}{TRUE/FALSE ensures that for minGinc>0, growth cannot exceed z_inf (max size) [boolean]}
 
 \item{CDF}{TRUE/FALSE controlling output to CDF if TRUE and PDF if FALSE [boolean]}
 
