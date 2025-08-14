@@ -8,13 +8,32 @@
 \alias{PlotSurvivalDecrements}
 \alias{PlotGrowthPercents}
 \alias{PlotExposureConcentrations}
+\alias{PlotLengthToMass}
+\alias{PlotGrowthTrajectory}
+\alias{PlotSurvivalTrajectory}
 \title{Fish Toxicity Translator: Plotting Functions}
 \usage{
-PlotGrowth(pars, date, sizesToPlot = 100, bt = 0, plotSDevs = T)
+PlotGrowth(
+  pars,
+  date,
+  sizesToPlot = 100,
+  bt = 0,
+  plotconf95s = T,
+  forProfile = F,
+  species = NA,
+  ...
+)
 
-PlotSurvival(pars, date, sizesToPlot = 100)
+PlotSurvival(pars, date, sizesToPlot = 100, forProfile = F, species = NA)
 
-PlotReproduction(pars, date, sizesToPlot = 100)
+PlotReproduction(
+  pars,
+  date,
+  reprolines = F,
+  sizesToPlot = 100,
+  forProfile = F,
+  species = NA
+)
 
 PlotSpawningProbs(pars)
 
@@ -23,17 +42,43 @@ PlotSurvivalDecrements(pars)
 PlotGrowthPercents(pars)
 
 PlotExposureConcentrations(pars)
+
+PlotLengthToMass(species, sizesToPlot = 100, invert = F)
+
+PlotGrowthTrajectory(species, sizesToPlot = 100, noOfDays = 365, ...)
+
+PlotSurvivalTrajectory(
+  species,
+  sizesToPlot = 100,
+  noOfDays = 365,
+  logY = T,
+  ...
+)
 }
 \arguments{
-\item{pars}{A date indexed FishToxTranslator parameter data.frame() or list of data.frames}
+\item{pars}{A date indexed FishToxTranslator parameter data.frame() or list of data.frames [data.frame]}
 
-\item{date}{Ordinal date used to access date specific FishToxTranslator parameters}
+\item{date}{Ordinal date used to access date specific FishToxTranslator parameters [integer]}
 
-\item{sizesToPlot}{Number size classes/divisions to plot between the lower and upper size limits. Default=100.}
+\item{sizesToPlot}{Number size classes/divisions to plot between the lower and upper size limits. Default=100. [integer]}
 
-\item{bt}{For [PlotGrowth], Population biomass for date plotted.  These values are produced as an output from SimulateModel(), but can be input for explore different density dependent growth.  Default value is 0 to represent density independence.}
+\item{bt}{For [PlotGrowth], Population biomass for date plotted.  These values are produced as an output from SimulateModel(), but can be input for explore different density dependent growth.  Default value is 0 to represent density independence. [float]}
 
-\item{plotSDevs}{For [PlotGrowth], T/F for including standard deviations of daily growth increments in the plot}
+\item{plotconf95s}{For [PlotGrowth], T/F for including standard deviations of daily growth increments in the plot [boolean]}
+
+\item{forProfile}{T/F to indicate this plot is for a species profile instead of simulations/visualizations after a 'pars' object has been created [boolean]}
+
+\item{species}{for [PlotGrowth, PlotYearlyGrowth], When plotting for species profiles, provide species common name instead of pars object to plot from life history parameters directly [string]}
+
+\item{...}{for [PlotGrowthTrajectory, PlotYearlyGrowth], can pass arguments to Growth(...) function}
+
+\item{reprolines}{for [PlotReproduction], T/F to include vertical lines to indicate reproductively mature size. Default = F [boolean]}
+
+\item{invert}{for [PlotLengthToMass], can invert this allometric relationship to plot Mass to Length instead [boolean]}
+
+\item{noOfDays}{for [PlotGrowthTrajectory], when plotting non annual growth trajectory can specify number of days to plot for [integer]}
+
+\item{logY}{for [PlotSurvivalTrajectory] T/F to log transform the Y (survival probability) axis.  Default = T [boolean]}
 }
 \value{
 Returns a plot for visualization of FishToxTranslator model outputs and functions
@@ -43,18 +88,24 @@ This group of functions are used for plotting various components of the FishToxT
 }
 \section{Functions}{
 \itemize{
-\item \code{PlotGrowth}: This function plots the daily growth function by showing mean daily growth increment and standard deviation by size
+\item \code{PlotGrowth()}: This function plots the daily growth function by showing mean daily growth increment and standard deviation by size
 
-\item \code{PlotSurvival}: This function plots the daily survival probability by size
+\item \code{PlotSurvival()}: This function plots the daily survival probability by size
 
-\item \code{PlotReproduction}: This function plots the daily size-dependent reproductive output of females per female per day
+\item \code{PlotReproduction()}: This function plots the daily size-dependent reproductive output of females per female per day
 
-\item \code{PlotSpawningProbs}: This function plots daily spawning probability
+\item \code{PlotSpawningProbs()}: This function plots daily spawning probability
 
-\item \code{PlotSurvivalDecrements}: This function plots daily survival decrements
+\item \code{PlotSurvivalDecrements()}: This function plots daily survival decrements
 
-\item \code{PlotGrowthPercents}: This function plots daily growth percents
+\item \code{PlotGrowthPercents()}: This function plots daily growth percents
 
-\item \code{PlotExposureConcentrations}: This function plots daily exposure concentrations
+\item \code{PlotExposureConcentrations()}: This function plots daily exposure concentrations
+
+\item \code{PlotLengthToMass()}: This function plots yearly growth trajectory from species parameters
+
+\item \code{PlotGrowthTrajectory()}: This function plots an arbitrarily long growth trajectory from species parameters
+
+\item \code{PlotSurvivalTrajectory()}: This function plots an arbitrarily long survival trajectory from species parameters
+
 }}
-

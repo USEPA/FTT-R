@@ -1,10 +1,11 @@
 #~             ,''''''''''''''.
-#~~           /   USEPA FISH   \
-#~   >~',*>  <  TOX TRANSLATOR  )
-#~~           \ v1.0 "Doloris" /
+#~~           +     USEPA      +
+#~   >~',*> <   FISH TOXICITY   }
+#~~           +   TRANSLATOR   +
 #~             `..............'
 #~~
 #~  N. Pollesch - pollesch.nathan@epa.gov
+#
 #
 #' Fish Toxicity Translator: Model Results Functions
 #'
@@ -14,6 +15,7 @@
 #'
 #' @param modelOutputList A list object with the output from \code{\link{SimulateModel}}.  This can be a single \code{SimulateModel} output or a list of \code{SimulateModel} output lists.
 #' @return Creates various model result summary objects or plots for Fish Toxicity Translator model scenario runs.
+#' @export
 SummaryTable <- function(modelOutputList){
   if(any(names(modelOutputList) %in% c('sizes', 'biomass', 'population', "mincsum", 'maxcsum', 'varcsum', 'cumulativeTransitionKernel', 'midpoints'))){
     summaryDF<-data.frame(StartingPopulation=NA,
@@ -75,6 +77,7 @@ return(summaryDF)
   }
 
 #' @describeIn SummaryTable Function creates a list of matrices for comparing each \code{\link{SummaryTable}} element to corresponding summary elements from each scenario included in 'modelOutputList'
+#' @export
 SummaryMatrix<-function(modelOutputList){
   if(any(names(modelOutputList) %in% c('sizes', 'biomass', 'population', "mincsum", 'maxcsum', 'varcsum', 'cumulativeTransitionKernel', 'midpoints'))){return(print("Please supply a model output list with for at least two scenarios for comparison to generate summary matrices"))}
 if(length(modelOutputList)<2){return(print("Please supply a model output list with for at least two scenarios for comparison to generate summary matrices"))}
@@ -95,6 +98,7 @@ return(sumMat)
 }
 
 #' @describeIn SummaryTable Function creates a series of plot.matrix images to compare each \code{\link{SummaryTable}} element to corresponding summary elements from each scenario included in 'modelOutputList'
+#' @export
 PlotSummaryMatrix<-function(modelOutputList){
   if(any(names(modelOutputList) %in% c('sizes', 'biomass', 'population', "mincsum", 'maxcsum', 'varcsum', 'cumulativeTransitionKernel', 'midpoints'))){return(print("Please supply a model output list with for at least two scenarios for comparison to generate summary matrices"))}
   if(length(modelOutputList)<2){return(print("Please supply a model output list with for at least two scenarios for comparison to generate summary matrices"))}
@@ -133,9 +137,12 @@ PlotSummaryMatrix<-function(modelOutputList){
 
 
 #' @describeIn SummaryTable Function plots daily biomass results
-
-PlotBiomass<- function (modelOutputList){
+#' @export
+PlotBiomass<- function (modelOutputList,relative=F){
   natecols<-colorRampPalette(c("purple","steelblue","lightgreen","orange"))
+
+  if(relative==F){
+
   if(any(names(modelOutputList) %in% c('sizes', 'biomass', 'population', "mincsum", 'maxcsum', 'varcsum', 'cumulativeTransitionKernel', 'midpoints'))){
     plot(x=1:366,y=modelOutputList$dailySummary$biomass,col=natecols(1),pch=18,xlab="Ordinal date",ylab="Population Biomass",main="Projected Daily Population Biomass")
 
@@ -147,19 +154,41 @@ PlotBiomass<- function (modelOutputList){
     biomasses[i,]<-modelOutputList[[i]]$dailySummary$biomass}
   plot(x=1:366,biomasses[1,],ylim=c(min(biomasses),max(biomasses)),col=natecols(nModels)[1],pch=15,xlab="Ordinal date",ylab="Population biomass",main="Projected Daily Population Biomass")
 
-  legend("topleft", cex=1, legend = names(modelOutputList), xpd = TRUE,
+  legend("bottomleft", cex=1, legend = names(modelOutputList), xpd = TRUE,
          horiz = FALSE, col = natecols(nModels), pch=seq(from=15,to=(15+nModels)), bty = "n")
   for(i in 1:nModels){
     points(x=1:366,biomasses[i,],col=natecols(nModels)[i],pch=14+i)}
   }
+  }
+  else if(relative==T){
+    if(any(names(modelOutputList) %in% c('sizes', 'biomass', 'population', "mincsum", 'maxcsum', 'varcsum', 'cumulativeTransitionKernel', 'midpoints'))){
+      plot(x=1:366,y=modelOutputList$dailySummary$relativeBiomass,col=natecols(1),pch=18,xlab="Ordinal date",ylab="Population Biomass (% of Baseline)",main="Projected Daily Population Biomass (% of Baseline)")
+
+      points(x=1:366,y=modelOutputList$dailySummary$relativeBiomass,col=natecols(1),pch=18)}
+    else{
+      nModels<-length(modelOutputList)
+      biomasses<-matrix(NA,nrow=nModels,ncol=366)
+      for(i in 1:nModels){
+        biomasses[i,]<-modelOutputList[[i]]$dailySummary$relativeBiomass}
+      plot(x=1:366,biomasses[1,],ylim=c(min(biomasses),max(biomasses)),col=natecols(nModels)[1],pch=15,xlab="Ordinal date",ylab="Population biomass (% of Baseline)",main="Projected Daily Population Biomass (% of Baseline)")
+
+      legend("bottomleft", cex=1, legend = names(modelOutputList), xpd = TRUE,
+             horiz = FALSE, col = natecols(nModels), pch=seq(from=15,to=(15+nModels)), bty = "n")
+      for(i in 1:nModels){
+        points(x=1:366,biomasses[i,],col=natecols(nModels)[i],pch=14+i)}
+    }
+  }
 }
 
 #' @describeIn SummaryTable Function plots daily population projection results
-
-PlotPopulation<- function (modelOutputList){
+#' @export
+PlotPopulation<- function (modelOutputList,relative=F){
   natecols<-colorRampPalette(c("purple","steelblue","lightgreen","orange"))
+
+  if(relative==F){
+
   if(any(names(modelOutputList) %in% c('sizes', 'biomass', 'population', "mincsum", 'maxcsum', 'varcsum', 'cumulativeTransitionKernel', 'midpoints'))){
-    plot(x=1:366,y=modelOutputList$dailySummary$population,col=natecols(1),pch=18,xlab="Ordinal date",ylab="Population population",main="Projected Daily Population")
+    plot(x=1:366,y=modelOutputList$dailySummary$population,col=natecols(1),pch=18,xlab="Ordinal date",ylab="Population (# of individuals)",main="Projected Daily Population")
 
     points(x=1:366,y=modelOutputList$dailySummary$population,col=natecols(1),pch=18)}
   else{
@@ -170,16 +199,38 @@ PlotPopulation<- function (modelOutputList){
 
     plot(x=1:366,populations[1,],ylim=c(min(populations),max(populations)),col=natecols(nModels)[1],pch=15,xlab="Ordinal date",ylab="Population (# of individuals)",main="Projected Daily Population")
 
-    legend("topleft", cex=1, legend = names(modelOutputList), xpd = TRUE,
+    legend("bottomleft", cex=1, legend = names(modelOutputList), xpd = TRUE,
            horiz = FALSE, col = natecols(nModels), pch=seq(from=15,to=(15+nModels)), bty = "n")
     for(i in 1:nModels){
       points(x=1:366,populations[i,],col=natecols(nModels)[i],pch=14+i)}
 
+  }
+  }
+  else if(relative==T){
+    if(any(names(modelOutputList) %in% c('sizes', 'biomass', 'population', "mincsum", 'maxcsum', 'varcsum', 'cumulativeTransitionKernel', 'midpoints'))){
+      plot(x=1:366,y=modelOutputList$dailySummary$relativePopulation,col=natecols(1),pch=18,xlab="Ordinal date",ylab="Population (% of Baseline) ",main="Projected Daily Population (% of Baseline)")
+
+      points(x=1:366,y=modelOutputList$dailySummary$relativePopulation,col=natecols(1),pch=18)}
+    else{
+      nModels<-length(modelOutputList)
+      populations<-matrix(NA,nrow=nModels,ncol=366)
+      for(i in 1:nModels){
+        populations[i,]<-modelOutputList[[i]]$dailySummary$relativePopulation}
+
+      plot(x=1:366,populations[1,],ylim=c(min(populations),max(populations)),col=natecols(nModels)[1],pch=15,xlab="Ordinal date",ylab="Population (% of Baseline)",main="Projected Daily Population (% of Baseline)")
+
+      legend("bottomleft", cex=1, legend = names(modelOutputList), xpd = TRUE,
+             horiz = FALSE, col = natecols(nModels), pch=seq(from=15,to=(15+nModels)), bty = "n")
+      for(i in 1:nModels){
+        points(x=1:366,populations[i,],col=natecols(nModels)[i],pch=14+i)}
+
     }
+  }
 }
 
-#' @describeIn SummaryTable Function plots the daily mean size of individuals in the population
 
+#' @describeIn SummaryTable Function plots the daily mean size of individuals in the population
+#' @export
 PlotMeanSize<- function(modelOutputList){
   natecols<-colorRampPalette(c("purple","steelblue","lightgreen","orange"))
   if(any(names(modelOutputList) %in% c('sizes', 'biomass', 'population', "mincsum", 'maxcsum', 'varcsum', 'cumulativeTransitionKernel', 'midpoints'))){
@@ -209,7 +260,7 @@ PlotMeanSize<- function(modelOutputList){
 }
 
 #' @describeIn SummaryTable This function plots the daily minimum and maximum column sums to provide bounds on growth potential
-
+#' @export
 PlotGrowthPotential<- function(modelOutputList){
   natecols<-colorRampPalette(c("purple","steelblue","lightgreen","orange"))
   if(any(names(modelOutputList) %in% c('sizes', 'biomass', 'population', "mincsum", 'maxcsum', 'varcsum', 'cumulativeTransitionKernel', 'midpoints'))){
@@ -244,6 +295,18 @@ PlotGrowthPotential<- function(modelOutputList){
 
 #' @describeIn SummaryTable Function to plot discretized transition kernels
 # This function is adapted from the Ellner et al., MatrixImage function
+#' @param A for [KernelImage] matrix for plotting [matrix]
+#' @param x for [KernelImage] specify x length. Default = NULL [vector]
+#' @param y for [KernelImage] specify y length. Default = NULL [vector]
+#' @param col for [KernelImage] colorRampPalette for plot. Default color palette is provided [colorRampPalette]
+#' @param just.legend for [KernelImage] just plot legend? Default = FALSE [boolean]
+#' @param bw for [KernelImage] black and white color? Default = FALSE [boolean]
+#' @param my.x.axis for [KernelImage] provide own x axis labels. Default = NA
+#' @param matLabels for [KernelImage] provide own matrix(?) labels. Default = NULL
+#' @param do.contour for [KernelImage] include contour lines? Default = TRUE [boolean]
+#' @param do.legend for [KernelImage] include legend? Default = TRUE [boolean]
+#' @param ... for [KernelImage] specify additional arguments to image() function
+#' @export
 KernelImage<-function(A, x=NULL, y=NULL, col=rev(colorRampPalette(c('red','yellow','green','blue','white'))(100)),
                      just.legend=FALSE,bw=FALSE, my.x.axis=NA, matLabels=NULL, do.contour=TRUE, do.legend=TRUE,...) {
   if(do.legend) layout(mat=cbind(matrix(1,5,5),rep(2,5)));
@@ -273,6 +336,7 @@ KernelImage<-function(A, x=NULL, y=NULL, col=rev(colorRampPalette(c('red','yello
 }
 
 #' @describeIn SummaryTable Function plots cumulative discretized transition Kernels
+#' @export
 PlotTransitionKernel<-function(modelOutputList){
   # This is a check to see if the modelOutputList contains only a single model result
   if(any(names(modelOutputList) %in% c('sizes', 'biomass', 'population', "mincsum", 'maxcsum', 'varcsum', 'cumulativeTransitionKernel', 'midpoints'))){
@@ -297,6 +361,10 @@ PlotTransitionKernel<-function(modelOutputList){
 }
 
 #' @describeIn SummaryTable Formats scenario parameters for exporting to excel documents
+#' @param scenarioToExport for [FormatExportScenario] the scenario name within the parameters (parsList) to export [string]
+#' @param parsList for [FormatExportScenario] parameters list object to be used to search for parameters associated with scenarioToExport [list]
+#' @param descList for [FormatExportScenario] descriptions list object to be used to search for description associated wth scenarioToExprt [list]
+#' @export
 FormatExportScenario<-function(scenarioToExport,parsList=parameters,descList=scenarioDescriptions){
   name<-paste0(scenarioToExport)
   ifelse(!is.null(descList[[scenarioToExport]]),
@@ -309,6 +377,12 @@ FormatExportScenario<-function(scenarioToExport,parsList=parameters,descList=sce
 }
 
 #' @describeIn SummaryTable Formats results parameters for exporting to excel documents
+#' @param runID for [FormatExportResults] completed simulation run name string to gather info from resultsList [string]
+#' @param scenarioID for [FormatExportResults] completed scenario name string within to gather information from results list along with runID [string]
+#' @param scenDescList for [FormatExportResults] completed list that is storing scenario descriptions. Default = scenarioDescriptions [list]
+#' @param resultsList for [FormatExportResults] completed list that is storing results from simulations. Default = modelRuns [list]
+#' @param runInfoList for [FormatExportResults] completed list that is storing simulation/model run information. Default = modelRunInfo [list]
+#' @export
 FormatExportResults<-function(runID,scenarioID,scenDescList=scenarioDescriptions,resultsList=modelRuns,runInfoList=modelRunInfo){
   exportList<-list()
   exportDate<-paste0(date())

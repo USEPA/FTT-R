@@ -7,6 +7,8 @@
 TCEM(exposure_concentrations, lc_conc, lc_percent)
 }
 \arguments{
+\item{exposure_concentrations}{time series (one concentration for each day, 365 days in length) of chemical exposures that are used to test if lc_conc is above or below [vector]}
+
 \item{lc_conc}{Lethal concentration for 'lc_percent' [float]}
 
 \item{lc_percent}{Percentage lethality in population for 'lc_conc' [float]}

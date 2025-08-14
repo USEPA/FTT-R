@@ -1,10 +1,11 @@
 #~             ,''''''''''''''.
-#~~           /   USEPA FISH   \
-#~   >~',*>  <  TOX TRANSLATOR  )
-#~~           \ v1.0 "Doloris" /
+#~~           +     USEPA      +
+#~   >~',*> <   FISH TOXICITY   }
+#~~           +   TRANSLATOR   +
 #~             `..............'
 #~~
 #~  N. Pollesch - pollesch.nathan@epa.gov
+#
 
 #' Minimum, maximum, and variance of discretized kernel column sums used a summary statistics for discretized growth transition kernels
 #'

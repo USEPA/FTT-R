@@ -1,10 +1,11 @@
 #~             ,''''''''''''''.
-#~~           /      USEPA     \
-#~   >~',*>  <  FISH TRANSLATOR )
-#~~           \  v0.1 "Maeve"  /
+#~~           +     USEPA      +
+#~   >~',*> <   FISH TOXICITY   }
+#~~           +   TRANSLATOR   +
 #~             `..............'
 #~~
 #~  N. Pollesch - pollesch.nathan@epa.gov
+#
 
 #' Kernel Functions - Hatchling Growth
 #'

@@ -31,25 +31,26 @@ SetExposureDates(growth_percents)
 
 \item{winterEndDate}{Ending date for the duration [Ordindal date interger]}
 
-\item{growth_percents}{The daily Kappa growth percent decreases from baseline
-return A vector of length length(growth_percents) with TRUE for each day where growth percent differs from 1}
+\item{growth_percents}{The daily Kappa growth percent decreases from baseline}
 }
 \value{
 A vector of length 365 where dates within 'startDate' and 'endDate' are TRUE all others are FALSE
+
+A vector of length length(growth_percents) with TRUE for each day where growth percent differs from 1
 }
 \description{
 These a group of functions that support other functions within the model
 }
 \section{Functions}{
 \itemize{
-\item \code{TimeExt}: Modified system time function formatted for use in naming files
+\item \code{TimeExt()}: Modified system time function formatted for use in naming files
 
-\item \code{OrdinalDate}: Ordinal day function turns a date string into an integer
+\item \code{OrdinalDate()}: Ordinal day function turns a date string into an integer
 
-\item \code{DateDuration}: Ordinal day duration function, takes to ordinal dates and provides all ordinal dates in between them as a vector
+\item \code{DateDuration()}: Ordinal day duration function, takes to ordinal dates and provides all ordinal dates in between them as a vector
 
-\item \code{SetWinterDates}: This function is used to create a vector of TRUE/FALSE values where each day in the range specified is TRUE and those not within the duration are FALSE - used for winter dates here
+\item \code{SetWinterDates()}: This function is used to create a vector of TRUE/FALSE values where each day in the range specified is TRUE and those not within the duration are FALSE - used for winter dates here
 
-\item \code{SetExposureDates}: This function takes a vector of growth percents from exposure and creates a boolean for each day that a growth percent exists.  Returns vector same length as input vector.
+\item \code{SetExposureDates()}: This function takes a vector of growth percents from exposure and creates a boolean for each day that a growth percent exists.  Returns vector same length as input vector.
+
 }}
-

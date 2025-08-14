@@ -1,0 +1,25 @@
+index,id,value,name,description,Conversion notes
+1,z_hatch,4,Hatch size,Average size at hatch,SID 581; reported value
+2,z_inf,73,Asymptotic Size,The largest size an individual is expected to obtain,SID 580; reported value for upper length size of unsexed/male fish
+3,k_g,0.0135,vonBertalanffy growth rate,Exponential parameter in size-dependent vonBertalanffy growth function,"SID 563, 566; mean of reported values"
+4,var_k_g,1.01E-05,Growth rate variance adults,Derived growth rate variance parameter for adults from delta method derivation,Fitted to derive variance in k bounds based on size at a given time
+5,var_e_g,1.01E-05,Growth rate variance hatchlings,Derived growth rate variance parameter for juveniles from delta method derivation,Fitted to derive variance in k bounds based on size at a given time
+6,is_density_dependent,0,Density dependent logical,Does the scenario use density dependence for growth?,Default
+7,dd_g,NA,Density dependence rate,Exponential rate parameter for strength of density dependent growth,Default
+8,allo_slope,3.22667,Allometric slope,"Allometric scaling ""slope"" (slope in log-log form) parameter from length to biomass","SID 545, 551, 564; mean value"
+9,allo_intercept,1.13E-05,Allometric intercept,"Allometric scaling ""intercept"" (intercept in log-log form) parameter from length to biomass","SID 546, 552, 565; mean value"
+10,s_min,0.9493788,Minimum survival probability,Minimum daily size-dependent survival probability for smallest individuals,"SID 536, 537, 549, 560; mean value for hatchling and larval fish"
+11,s_max,0.9937157,Maximum survival probability,Maximum daily size-dependent survival probability for largest individuals,"SID 317, 344; calculated as a 99.999% chance of mortality at the averge lifespan of 24 years"
+12,s_a,1,Logistic survival rate ,Transition rate between 's_min' and 's_max',"Fitted using z_repo, s_min, and s_max to have the curve rise at the juvenile to adult transition size and plateau at z_repro "
+13,s_b,25,Logistic survival inflection size,Daily survival inflection parameter,"Fitted using z_repo, s_min, and s_max to start curve at the juvenile to adult transition size"
+14,post_spawning_mortality,0,Post spawning mortality,Probability of mortality after spawning event,Assumed
+15,z_repro,27,Reproductively mature size,Threshold size cutoff for individuals to become reproductively active,SID 862; reported size 
+17,sex_ratio,0.5,Sex ratio of hatchlings,Sex ratio of hatchlings,Assumed
+18,fecu_slope,3.012222,Fecundity slope,"Fecundity ""slope"" (slope in log-log form) parameter from length to eggs/spawn","SID 836, 545, 551, 564; NLS fitted using eggs/female/unit of body weight and allometry. "
+19,fecu_intercept,0.001037,Fecundity intercept,"Fecundity ""intercept"" (intercept in log-log form) parameter from length to eggs/spawn","SID 836, 546, 552, 565; NLS fitted using eggs/female/unit of body weight and allometry. "
+20,hatch_rate,0.675,Hatch rate,Percent of successfully hatched individuals per spawning event,SID 550; reported value
+21,spawn_int,4,Interspawn interval,Average number of whole days between spawning event,"SID 573, 583; midpoint for reported interval"
+22,spawns_max_season,3,Maximum number of spawns per season,Maximum number of spawns events per season per individual,SID 885; Assumed from average eggs per spawn and reported absolute fecundity
+23,repro_start,121,Start of reproduction season,Start of reproduction season,SID 572; 1 May
+24,repro_end,245,End of reproduction season,End of reproduction season,SID 571; 1 September
+,,,,,

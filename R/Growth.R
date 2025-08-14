@@ -1,11 +1,11 @@
 #~             ,''''''''''''''.
-#~~           /   USEPA FISH   \
-#~   >~',*>  <  TOX TRANSLATOR  )
-#~~           \ v1.0 "Doloris" /
+#~~           +     USEPA      +
+#~   >~',*> <   FISH TOXICITY   }
+#~~           +   TRANSLATOR   +
 #~             `..............'
 #~~
 #~  N. Pollesch - pollesch.nathan@epa.gov
-
+#
 
 #' Kernel Functions - Growth
 #'
@@ -25,13 +25,16 @@
 #' @param date Ordinal day to reference proper 'pars' date-indexed parameters [integer]
 #' @param CDF TRUE/FALSE controlling output to CDF if TRUE and PDF if FALSE [boolean]
 #' @param muSDOut TRUE/FALSE controlling output of function. If TRUE, the mean and standard deviation are output instead of the CDF or PDF.  (This is mostly used for visualization.)
+#' @param minGinc Value for minimum mean growth increment. Default=0.05 used to avoid 'trapping' by growth increments smaller than discretization of size ranges [float]
+#' @param minV Value for minimum growth variance. Default=0.00001 used to ensure non-negative/non-zero growth variance [float]
+#' @param zInfMax TRUE/FALSE ensures that for minGinc>0, growth cannot exceed z_inf (max size) [boolean]
 #' @return Probability distribution function for growth to size 'z1' from size 'z'
 #' @export
 #' @family Kernel functions
 
-Growth<-function (z1, z, bt, pars, date, minGinc=0.05,minV=0.00001, CDF = T, muSDOut = F)
+Growth<-function (z1, z, bt, pars, date, minGinc=0.05,minV=0.00001, zInfMax=T, CDF = T, muSDOut = F)
 {
-
+  #minGinc<-((pars$z_inf[date]-pars$z_hatch[date])/100)*1.01 ## Working on developing a method to stop trapping in upper limits of numerical solutions (large sizes get stuck when growth increments get too small)
   if(pars$is_density_dependent[date]){
     zInfD<-pars$z_inf[date]*exp(-pars$dd_g[date]*bt)+z*(1-exp(-pars$dd_g[date]*bt))}
   else(zInfD<-pars$z_inf[date])
@@ -46,6 +49,9 @@ Growth<-function (z1, z, bt, pars, date, minGinc=0.05,minV=0.00001, CDF = T, muS
     mu <- (1 - pars$is_winter[date]) * mu.pre + pars$is_winter[date]*z}
   else(mu<-mu.pre)
   #mu<-ifelse(mu.pre<0.2,0.2,mu.pre)
+  if(zInfMax){
+    mu<-ifelse(mu > pars$z_inf[date],pars$z_inf[date],mu)
+  }
   sig.pre <- ifelse(((zInfD - mu)^2) * (pars$var_k_g[date]) <
                       minV, minV, ((zInfD - mu)^2) * (pars$var_k_g[date]))
   if(exists("is_winter",where=pars)){
@@ -67,18 +73,3 @@ Growth<-function (z1, z, bt, pars, date, minGinc=0.05,minV=0.00001, CDF = T, muS
     return(p.den.grow)
   }
 }
-
-
-# ## Can be used to create associated parameter data file for P. promelas
-#
-# Growth.parameters.p.promelas<-c(
-#   z_inf=74, Lab study
-#   b_inf=7.4*10^5 # Max biomass - Based on pond estimate from Payer 1977 of 750kg production per year
-#   dd_g=1 # Growth Saturation rate - Chosen without fitting
-#   k_g=0.009, Lab
-#   var_k_g=5.94*(10^(-7)), Lab study
-#   is_winter=0
-# )
-#
-# ##Creates an RData file to store the parameters
-# devtools::use_data(Growth.parameters.p.promelas,overwrite=T)

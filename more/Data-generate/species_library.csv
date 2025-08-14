@@ -1,0 +1,8 @@
+common_name,scientific_name,parameter_data,reviewed,temporary
+Fathead Minnow,Pimephales promelas,pimephales_promelas,T,F
+Bluegill,Lepomis macrochirus,lepomis_macrochirus,F,F
+Sheepshead Minnow,Cyprinodon variegatus,cyprinodon_variegatus,F,F
+Japenese Medaka,Oryzias latipes,oryzias_latipes,F,F
+Zebrafish,Danio rerio,danio_rerio,F,F
+Common Carp,Cyprinus carpio,cyprinus_carpio,F,F
+Fathead Minnow 2,Pimephales promelas,pimephales_promelas_2,F,F
