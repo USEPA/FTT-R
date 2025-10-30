@@ -442,7 +442,171 @@ parameters[[inputStressorScenarioName]]$is_density_dependent<-1
 # # Prompt download window
 # write.csv(parameters[[inputStressorScenarioName]],paste("formatted_",inputStressorScenarioName,".csv",sep=""),row.names=F)
 
+#### ++ Runs with DD + Winter ####
+#### ~ Density Dependence + Winter ####
 
+# Select scenario to apply stressors to
+# GUI: Populate select scenario list with current scenario names
+
+# scenarioNames
+chosenUnderlyingScenario<-scenarioNames[6] #Scenario name 6 is overwinter
+
+# GUI: Name the stressor scenario
+inputStressorScenarioName<-"W + DD"
+scenarioNames<-cbind(scenarioNames,inputStressorScenarioName)
+
+# Create the new stressor parameter set by copying the underlying scenario
+parameters[[inputStressorScenarioName]]<-parameters[[chosenUnderlyingScenario]]
+
+# GUI:Choose winter type
+stressorTypeList<-c("Chemical: Survival","Chemical: Growth","Winter","Density Dependence")
+
+chosenStressor<-stressorTypeList[4] #Choose density dependence
+
+## ADD density dependence
+parameters[[inputStressorScenarioName]]$is_density_dependent<-1
+
+#### ~ W + DD + GUTS ####
+
+# Select scenario to apply stressors to
+# GUI: Populate select scenario list with current scenario names
+
+# scenarioNames
+chosenUnderlyingScenario<-scenarioNames[8] #Scenario name 8 is W + DD
+
+# GUI: Name the stressor scenario
+inputStressorScenarioName<-"W + DD + GUTS"
+scenarioNames<-cbind(scenarioNames,inputStressorScenarioName)
+
+# Create the new stressor parameter set by copying the underlying scenario
+parameters[[inputStressorScenarioName]]<-parameters[[chosenUnderlyingScenario]]
+
+
+# GUI:Choose stressor type
+stressorTypeList<-c("Chemical: Survival","Chemical: Growth","Winter")
+
+chosenStressor<-stressorTypeList[1] #Choose chemical stressor
+
+# Chemical: Survival - Stressor need daily chemical exposure concentrations
+
+# GUI: Upload exposure concentrations
+inputExpConcentrationData<-read.csv("workflow-data/diaz_exposure.csv")
+# Plot input of exposure concentrations
+plot(inputExpConcentrationData,main="Daily Exposure Concentrations",xlab="Ordinal date",ylab="Concentration",type="l")
+# add concentration data to parameter data frame
+parameters[[inputStressorScenarioName]]$exp_concentrations<-inputExpConcentrationData$exp_concentrations
+
+
+# GUI: Choose Effect Type
+# If effect type is "predetermined effects"
+# Prompt for upload of predetermined effects file (Survival decrement, 365 days)
+
+# GUI: Ask for chemical id associated to predetermined effects
+inputChemID<-"Diazinon"
+parameters[[inputStressorScenarioName]]$chem_id<-inputChemID
+# GUI: Upload predetermined effects template
+inputPredeterminedEffectsData<-read.csv("workflow-data/GUTS_diaz_survival.csv")
+# Plot input of survival decrement
+# Note: The negative of the input survival decrement is plotted here
+plot(x=inputPredeterminedEffectsData[,1],y=-inputPredeterminedEffectsData[,2],main=paste("Daily Survival Decrement - ",parameters[[inputStressorScenarioName]]$chem_id[1],sep=""),xlab="Ordinal date",ylab="Survival Decrement",type="l")
+
+# Add predetermined effects data (survival_decrement) data to parameter data.frame
+parameters[[inputStressorScenarioName]]$survival_decrement<-inputPredeterminedEffectsData$survival_decrement
+
+#### ~ W + DD + GROWTH ####
+
+# Select scenario to apply stressors to
+# GUI: Populate select scenario list with current scenario names
+
+chosenUnderlyingScenario<-scenarioNames[8] #Assuming user chooses the 1st scenario name from the scenario name list
+
+# GUI: Name the stressor scenario
+inputStressorScenarioName<-"W + DD + Growth"
+scenarioNames<-cbind(scenarioNames,inputStressorScenarioName)
+
+# Create the new stressor parameter set by copying the underlying scenario
+parameters[[inputStressorScenarioName]]<-parameters[[chosenUnderlyingScenario]]
+
+# GUI:Choose stressor type
+stressorTypeList<-c("Chemical: Survival","Chemical: Growth","Winter")
+
+chosenStressor<-stressorTypeList[2] #Choose chemical: Growth stressor
+
+# Chemical: Survival - Stressor need daily chemical exposure concentrations
+
+# GUI: Upload exposure concentrations
+inputExpConcentrationData<-read.csv("workflow-data/diaz_exposure.csv")
+# Plot input of exposure concentrations
+plot(inputExpConcentrationData,main="Daily Exposure Concentrations",xlab="Ordinal date",ylab="Concentration",type="l")
+# add concentration data to parameter data frame
+parameters[[inputStressorScenarioName]]$exp_concentrations<-inputExpConcentrationData$exp_concentrations
+
+
+# GUI: Choose Effect Type
+# If effect type is "predetermined growth effects"
+# Prompt for upload of predetermined growth effects file (Growth percent, 365 days)
+
+# GUI: Ask for chemical id associated to predetermined effects
+inputChemID<-"Diazinon"
+parameters[[inputStressorScenarioName]]$chem_id<-inputChemID
+# GUI: Upload predetermined growth effects template
+inputPredeterminedGrowthEffectsData<-read.csv("workflow-data/diaz_growth.csv")
+# Plot input of growth percent
+plot(x=inputPredeterminedGrowthEffectsData[,1],y=inputPredeterminedGrowthEffectsData[,2],main=paste("Daily Growth Percent - ",parameters[[inputStressorScenarioName]]$chem_id[1],sep=""),xlab="Ordinal date",ylab="Growth Percent",type="l")
+
+# Add predetermined growth effects (growth_percent) data to parameter data.frame
+parameters[[inputStressorScenarioName]]$growth_percent<-inputPredeterminedGrowthEffectsData$growth_percent
+
+# Set Growth Effect dates
+growthEffectsDates<-SetExposureDates(parameters[[inputStressorScenarioName]]$growth_percent)
+parameters[[inputStressorScenarioName]]$are_growth_effects<-growthEffectsDates
+
+#### ~ W + DD + GUTS + GROWTH ####
+
+# Select scenario to apply stressors to
+# GUI: Populate select scenario list with current scenario names
+
+# scenarioNames
+chosenUnderlyingScenario<-scenarioNames[10] #Scenario name 8 is W + DD + Growth
+
+# GUI: Name the stressor scenario
+inputStressorScenarioName<-"W + DD + GUTS + Growth"
+scenarioNames<-cbind(scenarioNames,inputStressorScenarioName)
+
+# Create the new stressor parameter set by copying the underlying scenario
+parameters[[inputStressorScenarioName]]<-parameters[[chosenUnderlyingScenario]]
+
+
+# GUI:Choose stressor type
+stressorTypeList<-c("Chemical: Survival","Chemical: Growth","Winter")
+
+chosenStressor<-stressorTypeList[1] #Choose chemical stressor
+
+# Chemical: Survival - Stressor need daily chemical exposure concentrations
+
+# GUI: Upload exposure concentrations
+inputExpConcentrationData<-read.csv("workflow-data/diaz_exposure.csv")
+# Plot input of exposure concentrations
+plot(inputExpConcentrationData,main="Daily Exposure Concentrations",xlab="Ordinal date",ylab="Concentration",type="l")
+# add concentration data to parameter data frame
+parameters[[inputStressorScenarioName]]$exp_concentrations<-inputExpConcentrationData$exp_concentrations
+
+
+# GUI: Choose Effect Type
+# If effect type is "predetermined effects"
+# Prompt for upload of predetermined effects file (Survival decrement, 365 days)
+
+# GUI: Ask for chemical id associated to predetermined effects
+inputChemID<-"Diazinon"
+parameters[[inputStressorScenarioName]]$chem_id<-inputChemID
+# GUI: Upload predetermined effects template
+inputPredeterminedEffectsData<-read.csv("workflow-data/GUTS_diaz_survival.csv")
+# Plot input of survival decrement
+# Note: The negative of the input survival decrement is plotted here
+plot(x=inputPredeterminedEffectsData[,1],y=-inputPredeterminedEffectsData[,2],main=paste("Daily Survival Decrement - ",parameters[[inputStressorScenarioName]]$chem_id[1],sep=""),xlab="Ordinal date",ylab="Survival Decrement",type="l")
+
+# Add predetermined effects data (survival_decrement) data to parameter data.frame
+parameters[[inputStressorScenarioName]]$survival_decrement<-inputPredeterminedEffectsData$survival_decrement
 
 
 
@@ -506,10 +670,10 @@ modelRunInfo<-list()
 # GUI: Begin the GUI with a checkbox populated with Scenario Names
 scenarioNames
 # Assume the user has checked boxes 1,2
-chosenScenarioIndices<-1:7
+chosenScenarioIndices<-1:11
 
 # Names for chosen scenarios
-inputScenariosToRun<-scenarioNames[1:7]
+inputScenariosToRun<-scenarioNames[1:11]
 
 # Complete a second run with a new runID and new uniform outputs
 # Get input for runID specify 3 character maximum input
@@ -536,9 +700,20 @@ inputSolverOrder<-3
 
 modelRunParams$solverOrder<-inputSolverOrder
 
+## Include an initial distribution from a specific file
+inputPredeterminedIntitialDist<-read.csv("workflow-data/ABM_initial_distribution.csv")
+inputPredeterminedIntitialDist$Freq
+## Plot input of predetermined initial distribution
+plot(x=inputPredeterminedIntitialDist[,1],y=inputPredeterminedIntitialDist[,3],main="User-specified initial distribution",xlab="Size class",ylab="Density of individuals")
 
-modelRunParams$isUnif<-TRUE
-modelRunParams$isPredet<-FALSE
+## Assign predetermined initial distribution input the proper variable for simulation
+inputz_t_0<-inputPredeterminedIntitialDist[,3]
+
+
+
+
+modelRunParams$isUnif<-FALSE
+modelRunParams$isPredet<-TRUE
 modelRunParams$predetFileString<-NA
 # GUI: Need number of individuals to start simulation(s)
 # Default=100
@@ -558,7 +733,7 @@ modelRunParams$unifN0<-inputNumberInitInd
 ## End Run in paraller
 
 ## Run the model
-tempOutputs<-lapply(parameters[inputScenariosToRun],SimulateModel,n_0=inputNumberInitInd)
+tempOutputs<-lapply(parameters[inputScenariosToRun],SimulateModel,z_t_0=inputz_t_0)
 ## End run the model
 
 #tempOutputs<-lapply(parameters[inputScenariosToRun],SimulateModel,n_0=inputNumberInitInd)
@@ -576,7 +751,7 @@ modelRunInfo[[runID]][["modelRunScenarios"]]<-inputScenariosToRun
 resultNames<-names(unlist(modelRuns,recursive=F))
 
 # By default, use all names that provided as input to the run function
-chosenResultIndices<-1:7
+chosenResultIndices<-1:11
 
 # Names for chosen scenarios
 inputScenariosForResults<-resultNames[chosenResultIndices]
@@ -618,8 +793,12 @@ View(modelRuns)
 #### Modify results to include relative values to baseline ####
 ## Baseline population levels are in the dailySummary
 
-baseline_population <- modelRuns$Y1$Baseline$dailySummary$population
-baseline_biomass <- modelRuns$Y1$Baseline$dailySummary$biomass
+#baseline_population <- modelRuns$Y1$Baseline$dailySummary$population
+#baseline_biomass <- modelRuns$Y1$Baseline$dailySummary$biomass
+
+## MODIFY FOR W+DD AS BASELINE POPULATION
+baseline_population<- modelRuns$Y1$`W + DD`$dailySummary$population
+baseline_biomass<-modelRuns$Y1$`W + DD`$dailySummary$biomass
 # Iterate over each scenario in modelRuns$Y1
 for (scenario_name in names(modelRuns$Y1)) {
   if (scenario_name != "Baseline") {
@@ -773,10 +952,10 @@ compileTimeSeries <- function(modelRuns) {
 }
 
 # Compile the time series data into a data frame
-compiled_data <- compileTimeSeries(modelRuns)
+compiled_data_ABM_ID <- compileTimeSeries(modelRuns)
 
 # Export the data frame to a CSV file
-write.csv(compiled_data, "scenario_time_series.csv", row.names = FALSE)
+write.csv(compiled_data, "scenario_time_series_ABM_ID.csv", row.names = FALSE)
 
 # Print the first few rows of the compiled data for verification
 print(head(compiled_data))
@@ -825,15 +1004,15 @@ compileTimeSeriesWide <- function(modelRuns) {
 }
 
 # Compile the time series data into a wide format data frame
-compiled_data_wide <- compileTimeSeriesWide(modelRuns)
+compiled_data_wide_ABM_ID <- compileTimeSeriesWide(modelRuns)
 
 # Export the wide data frame to a CSV file
-write.csv(compiled_data_wide, "scenario_time_series_wide.csv", row.names = FALSE)
+write.csv(compiled_data_wide_ABM_ID, "scenario_time_series_wide.csv", row.names = FALSE)
 
 # Print the first few rows of the compiled wide data for verification
-print(head(compiled_data_wide))
+print(head(compiled_data_wide_ABM_ID))
 
 
 #### Also write a csv of the summary Table results ####
 
-write.csv(summaryTableResults,"Scenario_Summary_Results.csv",row.names=FALSE)
+write.csv(summaryTableResults,"Scenario_Summary_Results_ABM_ID.csv",row.names=FALSE)
