@@ -20,9 +20,9 @@ SummaryMatrix(modelOutputList)
 
 PlotSummaryMatrix(modelOutputList)
 
-PlotBiomass(modelOutputList)
+PlotBiomass(modelOutputList, relative = F)
 
-PlotPopulation(modelOutputList)
+PlotPopulation(modelOutputList, relative = F)
 
 PlotMeanSize(modelOutputList)
 
